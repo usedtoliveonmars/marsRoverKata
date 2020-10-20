@@ -1,18 +1,29 @@
+using MarsRover.Domain.Model;
 using NUnit.Framework;
 
 namespace Tests
 {
-    public class Tests
+    [TestFixture]
+    public class RoverTests
     {
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void TheRoverIsFacingNorth()
         {
+            // Arrange and Act
+            var rover = new Rover();
+
+            // Assert
+            Assert.AreEqual(Direction.North, rover.Orientation);
         }
 
         [Test]
-        public void Test1()
+        public void TheRoverIsAt00()
         {
-            Assert.Pass();
+            // Arrange and Act
+            var rover = new Rover();
+
+            var expectedLocation = new Coordinate { X = 0, Y = 0 };
+            Assert.AreEqual(expectedLocation, rover.Location);
         }
     }
 }
