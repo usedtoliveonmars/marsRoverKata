@@ -6,6 +6,6 @@ namespace MarsRover.Domain.Model
 {
     public enum Direction
     {
-        North, South, East, West
+        South, East, West, North
     }
 }
