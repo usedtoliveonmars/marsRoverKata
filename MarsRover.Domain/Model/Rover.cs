@@ -26,5 +26,56 @@ namespace MarsRover.Domain.Model
             if (Orientation == Direction.West)
                 Location = Location.AdjustXBy(-1);
         }
+
+        public void MoveBackward()
+        {
+            if (Orientation == Direction.North)
+                Location = Location.AdjustYBy(-1);
+            if (Orientation == Direction.South)
+                Location = Location.AdjustYBy(1);
+            if (Orientation == Direction.East)
+                Location = Location.AdjustXBy(-1);
+            if (Orientation == Direction.West)
+                Location = Location.AdjustXBy(1);
+        }
+
+        public void MoveLeft()
+        {
+            if (Orientation == Direction.North)
+            {
+                Orientation = Direction.West;
+            }
+            else if (Orientation == Direction.West)
+            {
+                Orientation = Direction.South;
+            }
+            else if (Orientation == Direction.South)
+            {
+                Orientation = Direction.East;
+            }
+            else if (Orientation == Direction.East)
+            {
+                Orientation = Direction.North;
+            }
+        }
+        public void MoveRight()
+        {
+            if (Orientation == Direction.North)
+            {
+                Orientation = Direction.East;
+            }
+            else if (Orientation == Direction.West)
+            {
+                Orientation = Direction.North;
+            }
+            else if (Orientation == Direction.South)
+            {
+                Orientation = Direction.West;
+            }
+            else if (Orientation == Direction.East)
+            {
+                Orientation = Direction.South;
+            }
+        }
     }
 }
