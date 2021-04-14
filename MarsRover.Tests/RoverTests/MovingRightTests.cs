@@ -6,63 +6,21 @@ namespace Tests
     [TestFixture]
     public class MovingRightTests
     {
-        [Test]
-        public void WhenMovingRightAndFacingNorthThenDirectionChangesToEast()
+        [TestCase(Direction.North, Direction.East, TestName = "WhenMovingRightAndFacingNorthThenRoverFacesEast")]
+        [TestCase(Direction.West, Direction.North, TestName = "WhenMovingRightAndFacingWestThenRoverFacesNorth")]
+        [TestCase(Direction.East, Direction.South, TestName = "WhenMovingRightAndFacingEastThenRoverFacesSouth")]
+        [TestCase(Direction.South, Direction.West, TestName = "WhenMovingRightAndFacingSouthThenRoverFacesWest")]
+
+        public void WhenTurningRightThenRoverFacesTheCorrectDirection(Direction startDirection, Direction expectedDirection)
         {
             // Arrange 
             var rover = new Rover();
-            rover.Orientation = Direction.North;
+            rover.Orientation = startDirection;
 
             // Act
             rover.MoveRight();
 
             // Assert
-            var expectedDirection = Direction.East;
-            Assert.AreEqual(expectedDirection, rover.Orientation);
-        }
-
-        [Test]
-        public void WhenMovingRightAndFacingEastThenDirectionChangesToSouth()
-        {
-            // Arrange 
-            var rover = new Rover();
-            rover.Orientation = Direction.East;
-
-            // Act
-            rover.MoveRight();
-
-            // Assert
-            var expectedDirection = Direction.South;
-            Assert.AreEqual(expectedDirection, rover.Orientation);
-        }
-
-        [Test]
-        public void WhenMovingRightAndFacingSouthThenDirectionChangesToWest()
-        {
-            // Arrange 
-            var rover = new Rover();
-            rover.Orientation = Direction.South;
-
-            // Act
-            rover.MoveRight();
-
-            // Assert
-            var expectedDirection = Direction.West;
-            Assert.AreEqual(expectedDirection, rover.Orientation);
-        }
-
-        [Test]
-        public void WhenMovingRightAndFacingWestThenDirectionChangesToNorth()
-        {
-            // Arrange 
-            var rover = new Rover();
-            rover.Orientation = Direction.West;
-
-            // Act
-            rover.MoveRight();
-
-            // Assert
-            var expectedDirection = Direction.North;
             Assert.AreEqual(expectedDirection, rover.Orientation);
         }
     }

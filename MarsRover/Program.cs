@@ -1,6 +1,7 @@
-﻿using MarsRover.Domain.Model;
+﻿using MarsRover.Domain;
+using MarsRover.Domain.Model;
+using MarsRover.Domain.Services;
 using System;
-using System.Text.RegularExpressions;
 
 namespace MarsRover
 {
@@ -10,16 +11,19 @@ namespace MarsRover
         {
             GetAppInfo(); //Run method to get app info
 
-            //todo - set up logging
-            SetLog(); //Setup Logging
-
             ControlTheRover(); //User controls the rover
         }
 
         private static void ControlTheRover()
         {
-            Console.WriteLine("Welcome to The Mars Rover Kata!\n " +
-                "Which way do you want the Rover to go?\n" +
+            Console.WriteLine("Welcome to The Mars Rover Kata!\n" +
+            "Please enter your logfile path. If you wish to continue without a logfile, please press enter to leave this blank");
+
+            var path = Console.ReadLine();
+            
+            ILogger logger = new Logger(path);
+
+            Console.WriteLine("Which way do you want the Rover to go?\n" +
                 "F = Forward\n" +
                 "B = Backward\n" +
                 "L = Left\n" +
@@ -40,10 +44,12 @@ namespace MarsRover
                         case "F":
                             rover.MoveForward();
                             Console.WriteLine($"Your Rover Moved Forward!\n {FormatLocation(rover)}");//New Location is " + rover.Location);
+                            logger.Log("Example message"); // "Rover moved forward!
                             continue;
                         case "B":
                             rover.MoveBackward();
                             Console.WriteLine($"Your Rover Moved Backward!\n {FormatLocation(rover)}");
+                            // "Rover moved backward!"
                             continue;
                         case "L":
                             rover.MoveLeft();
@@ -63,17 +69,12 @@ namespace MarsRover
         private static string FormatLocation(Rover rover)
         {
             return $"Rover is at ({rover.Location.X}, {rover.Location.Y}) facing {rover.Orientation}";
-            // Rover is at (0, 1) facing North
-        }
-
-        private static void SetLog()
-        {
         }
 
         private static void GetAppInfo()
         {
             string appName = "Mars Rover Kata";
-            string appVersion = "0.1.0";
+            string appVersion = "1.0.0";
             string appAurthor = "Chris Cushman";
 
             Console.ForegroundColor = ConsoleColor.Green;
