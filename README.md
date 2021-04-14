@@ -1,4 +1,4 @@
-# marsRoverKata
+# The Mars Rover Kata
 The Mars Rover Kata is a training console application that displays different .Net and Nunit techniques all in one simple application!
 
 ## How to use the Mars Rover
