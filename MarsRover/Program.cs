@@ -1,6 +1,7 @@
-﻿using MarsRover.Domain.Model;
+﻿using MarsRover.Domain;
+using MarsRover.Domain.Model;
+using MarsRover.Domain.Services;
 using System;
-using System.Text.RegularExpressions;
 
 namespace MarsRover
 {
@@ -10,16 +11,19 @@ namespace MarsRover
         {
             GetAppInfo(); //Run method to get app info
 
-            //todo - set up logging
-            SetLog(); //Setup Logging
-
             ControlTheRover(); //User controls the rover
         }
 
         private static void ControlTheRover()
         {
-            Console.WriteLine("Welcome to The Mars Rover Kata!\n " +
-                "Which way do you want the Rover to go?\n" +
+            Console.WriteLine("Welcome to The Mars Rover Kata!\n" +
+            "Please enter your logfile path. If you wish to continue without a logfile, please press enter to leave this blank");
+
+            var path = Console.ReadLine();
+            
+            ILogger logger = new Logger(path);
+
+            Console.WriteLine("Which way do you want the Rover to go?\n" +
                 "F = Forward\n" +
                 "B = Backward\n" +
                 "L = Left\n" +
@@ -29,61 +33,48 @@ namespace MarsRover
             //create a new rover
             var rover = new Rover();
 
-            //get user input
-            string move = Console.ReadLine();
-
-            //switch based on forward, backward, left, right, quit
-            switch (move.ToUpper())
+            while (true)
             {
-                case "F":
-                    rover.MoveForward();
-                    Console.WriteLine($"Your Rover Moved Forward!\n {FormatLocation(rover)}");//New Location is " + rover.Location);
-                    return;
-                case "B":
-                    Console.WriteLine("Your Rover Moved Forward!\n New Location is " + rover.Location);
-                    return;
-                case "L":
-                    Console.WriteLine("Your Rover Moved Left!\n New Location is " + rover.Location);
-                    return;
-                case "R":
-                    Console.WriteLine("Your Rover Moved Right!\n New Location is " + rover.Location);
-                    return;
-                default:
-                    break;
+                //get user input
+                string move = Console.ReadLine();
+                {
+                    //switch based on forward, backward, left, right, quit
+                    switch (move.ToUpper())
+                    {
+                        case "F":
+                            rover.MoveForward();
+                            Console.WriteLine($"Your Rover Moved Forward!\n {FormatLocation(rover)}");//New Location is " + rover.Location);
+                            logger.Log("Example message"); // "Rover moved forward!
+                            continue;
+                        case "B":
+                            rover.MoveBackward();
+                            Console.WriteLine($"Your Rover Moved Backward!\n {FormatLocation(rover)}");
+                            // "Rover moved backward!"
+                            continue;
+                        case "L":
+                            rover.MoveLeft();
+                            Console.WriteLine($"Your Rover Moved Left!\n {FormatLocation(rover)}");
+                            continue;
+                        case "R":
+                            rover.MoveRight();
+                            Console.WriteLine($"Your Rover Moved Right!\n {FormatLocation(rover)}");
+                            continue;
+                        default:
+                            return;
+                    }
+                }
             }
         }
 
         private static string FormatLocation(Rover rover)
         {
             return $"Rover is at ({rover.Location.X}, {rover.Location.Y}) facing {rover.Orientation}";
-            // Rover is at (0, 1) facing North
-        }
-
-        //while (true)
-        //{
-        //    // check if input is a correct command
-        //    var onlyAllowedCharacters = new Regex("^[F,B,L,R,Q]*$");
-
-        //    //while input contains invalid characters keep asking
-        //    if (onlyAllowedCharacters.IsMatch(upperCaseMove) && (!String.IsNullOrEmpty(upperCaseMove)))
-        //    {
-        //        MoveRover(upperCaseMove);
-        //        return;
-        //    }
-
-        //    PrintColorMessage(ConsoleColor.Red, "Please enter a valid command");
-        //}
-
-        //Print color message
-
-        private static void SetLog()
-        {
         }
 
         private static void GetAppInfo()
         {
             string appName = "Mars Rover Kata";
-            string appVersion = "0.1.0";
+            string appVersion = "1.0.0";
             string appAurthor = "Chris Cushman";
 
             Console.ForegroundColor = ConsoleColor.Green;
